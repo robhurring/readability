@@ -5,7 +5,7 @@ exports.index = function(req, res){
   res.render('index', { title: 'Express' });
 };
 
-exports.scraper = function(req, res){
+exports.fetch = function(req, res){
   request(req.query.url, function(err, data){
     if(!err){
       var doc = cheerio.load(data.body)

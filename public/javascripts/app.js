@@ -38,7 +38,7 @@ app.factory('TextStatisticsSvc', function($q, $http){
     loadUrl: function(url){
       var d = $q.defer();
 
-      $http.get("/scrape?url=" + url)
+      $http.get("/fetch?url=" + url)
         .success(function(data, status, headers, config){
           d.resolve(textstatistics(data.text));
         })
@@ -55,11 +55,7 @@ app.controller('HomeCtrl', function($scope, TextStatisticsSvc) {
   $scope.processing = false;
 
   var urls = [],
-    testUrls = [
-      'http://proccli.com',
-      'http://reddit.com',
-      'http://edentech.net'
-    ];
+    testUrls = [];
 
   $scope.results = [];
   $scope.data = {
