@@ -1,48 +1,70 @@
 <div class="row">
   <div class="col-lg-12">
-    <form action="" role="form">
-      <div class="form-group">
-        <label for="urlList">URLs To Scan</label>
-        <textarea name="urlList" ng-model="data.urlList" class="form-control" rows="7"></textarea>
+    <div class="panel panel-default">
+      <div class="panel-heading">About</div>
+      <div class="panel-body">
+        Basic panel example
       </div>
+    </div>
 
-      <button ng-click="processList()" ui-ladda="processing" class="ladda-button" data-style="expand-left">
-        <span class="ladda-label">Process</span>
-      </button>
-    </form>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">Enter URLs</div>
+      <div class="panel-body">
+        <form name="dataForm" role="form">
+          <div class="form-group">
+            <label for="urlList">URLs To Scan</label>
+            <textarea name="urlList" ng-model="data.urlList" class="form-control" rows="7" placeholder="Enter 1 URL per line" required></textarea>
+          </div>
 
-<div class="row">
-  <div class="col-lg-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th width='20%'>URL</th>
-          <th width='5%'>Ok?</th>
-          <th>Ease</th>
-          <th>Grade</th>
-          <th>Fog</th>
-          <th>Index</th>
-          <th>Smog</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="result in results">
-          <td><a ng-href="{{ result.url }}">{{ result.url }}</a></td>
-          <span ng-if="result.ok">
-            <td>{{ result.ok ? 'Yes' : 'No' }}</td>
-            <td>{{ result.stats.fleschKincaidReadingEase() }}</td>
-            <td>{{ result.stats.fleschKincaidGradeLevel() }}</td>
-            <td>{{ result.stats.gunningFogScore() }}</td>
-            <td>{{ result.stats.colemanLiauIndex() }}</td>
-            <td>{{ result.stats.smogIndex() }}</td>
-          </span>
-          <span ng-if="!result.ok">
-            <td colspan="5">{{ result.error }}</td>
-          </span>
-        </tr>
-      </tbody>
-    </table>
+          <div class="col-lg-2">
+            <button ng-disabled="dataForm.$invalid" ng-click="processList()" ui-ladda="processing" class="ladda-button" data-style="expand-left">
+              <span class="ladda-label">{{ buttonLabel }}</span>
+            </button>
+          </div>
+          <div class="col-lg-10">
+            <div class="alert alert-info form-alert" ng-show="dataForm.$invalid">
+              <p>Enter a list of URLs to process in the text area below and click &quot;Process&quot;</p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Results</div>
+      <div class="panel-body" ng-hide="results.length">
+        <p>Process some urls</p>
+      </div>
+      <table class="table" ng-show="results.length">
+        <thead>
+          <tr>
+            <th width='20%'>URL</th>
+            <th width='5%'>Ok?</th>
+            <th>Ease</th>
+            <th>Grade</th>
+            <th>Fog</th>
+            <th>Index</th>
+            <th>Smog</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="result in results">
+            <td><a ng-href="{{ result.url }}">{{ result.url }}</a></td>
+            <span ng-if="result.ok">
+              <td>{{ result.ok ? 'Yes' : 'No' }}</td>
+              <td>{{ result.stats.ease }}</td>
+              <td>{{ result.stats.grade }}</td>
+              <td>{{ result.stats.fog }}</td>
+              <td>{{ result.stats.liau }}</td>
+              <td>{{ result.stats.smog }}</td>
+            </span>
+            <span ng-if="!result.ok">
+              <td colspan="5">{{ result.error }}</td>
+            </span>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </div>

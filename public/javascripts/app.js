@@ -20,9 +20,9 @@ app.directive('uiLadda', [function(){
       scope.$watch(attrs.uiLadda, function(newVal, oldVal){
         if (angular.isNumber(oldVal)) {
           if (angular.isNumber(newVal)) {
-              ladda.setProgress(newVal);
+            ladda.setProgress(newVal);
           } else {
-              newVal && ladda.setProgress(0) || ladda.stop();
+            newVal && ladda.setProgress(0) || ladda.stop();
           }
         } else {
           newVal && ladda.start() || ladda.stop();
@@ -52,49 +52,64 @@ app.factory('TextStatisticsSvc', function($q, $http){
 });
 
 app.controller('HomeCtrl', function($scope, TextStatisticsSvc) {
+  var testUrls = [
+    'http://www.youbeauty.com/face/rouge-ecstasy-lipstick-giorgio-armani',
+    'http://www.youbeauty.com/face/columns/makeup-matters/coping-with-cancer-diagnosis'
+    ];
+
   $scope.processing = false;
-
-  var urls = [],
-    testUrls = [];
-
+  $scope.buttonLabel = "Process";
   $scope.results = [];
   $scope.data = {
     urlList: testUrls.join("\n")
   }
 
   $scope.processList = function(){
-    var processed = 0
-      , total = 0;
+    var urls = $scope.data.urlList.split(/\r\n|\r|\n/g)
+      , results;
 
-    $scope.processing = 0.01;
-    $scope.results = [];
-
-    urls = $scope.data.urlList.split(/\r\n|\r|\n/g);
-    total = urls.length;
+    $scope.processing = true;
+    $scope.buttonLabel = "Processing";
+    $scope.results = []; // reset results
 
     urls.forEach(function(url){
       TextStatisticsSvc.loadUrl(url)
         // create our result
         .then(function(stats){
-          return {url: url, ok: true, stats: stats};
+          var result = {
+            url: url,
+            ok: true,
+            stats: {
+              ease: stats.fleschKincaidReadingEase(),
+              grade: stats.fleschKincaidGradeLevel(),
+              fog: stats.gunningFogScore(),
+              liau: stats.colemanLiauIndex(),
+              smog: stats.smogIndex()
+            }
+          };
+
+          // since stats is a dog
+          delete stats;
+
+          return result;
         }, function(err){
-          return {url: url, ok: false, error: err};
+          return {
+            url: url,
+            ok: false,
+            error: err
+          };
         })
         // update our results
         .then(function(result){
-          processed++;
           $scope.results.push(result);
         })
         // update percentage
         .then(function(){
-          if(processed >= total){
+          if($scope.results.length >= urls.length){
             $scope.processing = false;
-          }else{
-            $scope.processing = Number(processed/total);
+            $scope.buttonLabel = "Process";
           }
         });
     });
-
-    $scope.processing = false;
   }
 });
