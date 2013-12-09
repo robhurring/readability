@@ -80,7 +80,6 @@ app.factory('TextStatisticsSvc', function($q, $http){
 
 app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
   var testUrls = [
-    'www.proccli.com'
     ];
 
   $scope.processing = false;
@@ -89,6 +88,16 @@ app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
   $scope.help = HelpTextSvc;
   $scope.data = {
     urlList: testUrls.join("\n")
+  }
+
+  var normalizeUrl = function(string){
+    var url = string;
+
+    if(!/^https?:\/\//i.test(url)){
+      url = "http://" + url;
+    }
+
+    return url;
   }
 
   $scope.processList = function(){
@@ -100,6 +109,8 @@ app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
     $scope.results = []; // reset results
 
     urls.forEach(function(url){
+      url = normalizeUrl(url);
+
       TextStatisticsSvc.loadUrl(url)
         // create our result
         .then(function(stats){
