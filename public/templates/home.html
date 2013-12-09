@@ -18,14 +18,16 @@
             <textarea name="urlList" ng-model="data.urlList" class="form-control" rows="7" placeholder="Enter 1 URL per line" required></textarea>
           </div>
 
-          <div class="col-lg-2">
-            <button ng-disabled="dataForm.$invalid" ng-click="processList()" ui-ladda="processing" class="ladda-button" data-style="expand-left">
-              <span class="ladda-label">{{ buttonLabel }}</span>
-            </button>
-          </div>
-          <div class="col-lg-10">
-            <div class="alert alert-info form-alert" ng-show="dataForm.$invalid">
-              <p>Enter a list of URLs to process in the text area below and click &quot;Process&quot;</p>
+          <div class="row">
+            <div class="col-xs-2">
+              <button ng-disabled="dataForm.$invalid" ng-click="processList()" ui-ladda="processing" data-spinner-size="40" class="ladda-button" data-style="expand-left">
+                <span class="ladda-label">{{ buttonLabel }}</span>
+              </button>
+            </div>
+            <div class="col-xs-8 pull-right">
+              <div class="alert alert-info form-alert" ng-show="dataForm.$invalid">
+                <p>Enter a list of URLs to process in the text area below and click &quot;Process&quot;</p>
+              </div>
             </div>
           </div>
         </form>
@@ -41,27 +43,21 @@
         <thead>
           <tr>
             <th width='20%'>URL</th>
-            <th width='5%'>Ok?</th>
-            <th>Ease</th>
-            <th>Grade</th>
-            <th>Fog</th>
-            <th>Index</th>
-            <th>Smog</th>
+            <th>Flesch Reading Ease <popover data="help.ease"></th>
+            <th>Gunning-Fog Index <popover data="help.fog"></th>
+            <th>Flesch-Kincaid grade level <popover data="help.grade"></th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="result in results">
             <td><a ng-href="{{ result.url }}">{{ result.url }}</a></td>
             <span ng-if="result.ok">
-              <td>{{ result.ok ? 'Yes' : 'No' }}</td>
               <td>{{ result.stats.ease }}</td>
-              <td>{{ result.stats.grade }}</td>
               <td>{{ result.stats.fog }}</td>
-              <td>{{ result.stats.liau }}</td>
-              <td>{{ result.stats.smog }}</td>
+              <td>{{ result.stats.grade }}</td>
             </span>
             <span ng-if="!result.ok">
-              <td colspan="5">{{ result.error }}</td>
+              <td colspan="3">{{ result.error }}</td>
             </span>
           </tr>
         </tbody>
