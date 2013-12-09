@@ -62,18 +62,14 @@ app.factory('HelpTextSvc', function(){
 
 app.factory('TextStatisticsSvc', function($q, $http){
   return {
-    loadUrl: function(url){
-      var d = $q.defer();
-
+    loadUrl: function(url, then){
       $http.get("/fetch?url=" + url)
         .success(function(data, status, headers, config){
-          d.resolve(textstatistics(data.text));
+          then(null, data, textstatistics(data.text));
         })
         .error(function(data, status, headers, config){
-          d.reject(data.error);
+          then(data.error, data, null);
         });
-
-      return d.promise;
     }
   }
 });
@@ -83,6 +79,7 @@ app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
     ];
 
   $scope.processing = false;
+  $scope.processingErrors = false;
   $scope.buttonLabel = "Process";
   $scope.results = [];
   $scope.help = HelpTextSvc;
@@ -107,47 +104,45 @@ app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
     $scope.processing = true;
     $scope.buttonLabel = "Processing";
     $scope.results = []; // reset results
+    $scope.processingErrors = false;
 
     urls.forEach(function(url){
       url = normalizeUrl(url);
 
-      TextStatisticsSvc.loadUrl(url)
-        // create our result
-        .then(function(stats){
-          var result = {
-            url: url,
-            ok: true,
-            stats: {
-              ease: stats.fleschKincaidReadingEase(),
-              grade: stats.fleschKincaidGradeLevel(),
-              fog: stats.gunningFogScore(),
-              liau: stats.colemanLiauIndex(),
-              smog: stats.smogIndex()
-            }
-          };
+      TextStatisticsSvc.loadUrl(url, function(err, data, textStats){
+        var result;
 
-          // since stats is a dog
-          delete stats;
+        result = {
+          ok: true,
+          url: data.url
+        }
 
-          return result;
-        }, function(err){
-          return {
-            url: url,
-            ok: false,
-            error: err
-          };
-        })
-        // update our results
-        .then(function(result){
-          $scope.results.push(result);
-        })
-        // update percentage
-        .then(function(){
-          if($scope.results.length >= urls.length){
-            $scope.processing = false;
-            $scope.buttonLabel = "Process";
+        if(err){
+          $scope.processingErrors = true;
+          result.ok = false;
+          result.error = err;
+        }else{
+          result.stats = {
+            ease: textStats.fleschKincaidReadingEase(),
+            grade: textStats.fleschKincaidGradeLevel(),
+            fog: textStats.gunningFogScore(),
+            liau: textStats.colemanLiauIndex(),
+            smog: textStats.smogIndex()
           }
-        });
+        }
+
+        // delete our stats if we have it to clean up
+        delete textStats
+
+        // push our result
+        $scope.results.push(result);
+
+        if($scope.results.length >= urls.length){
+          $scope.processing = false;
+          $scope.buttonLabel = "Process";
+        }
+      });
+
     });
   }
 });

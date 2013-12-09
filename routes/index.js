@@ -22,10 +22,13 @@ exports.fetch = function(req, res){
       doc('script,link,img').remove();
       text = String(doc('body').text()).replace(/\s{2,}|\n\r/ig, ' ');
 
-      res.json(200, {text: text.trim(), error: null});
+      if(text === ""){
+        res.json(422, {url: url, text: "", error: "Could not find content for this URL"});
+      }else{
+        res.json(200, {url: url, text: text.trim(), error: null});
+      }
     }else{
-      console.log("error:", err);
-      res.json(500, {text: '', error: err.toString()});
+      res.json(500, {url: url, text: '', error: err.toString()});
     }
   });
 }

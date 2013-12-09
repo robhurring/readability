@@ -49,16 +49,29 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="result in results">
+          <tr ng-repeat="result in results | filter: {ok: true}">
             <td><a ng-href="{{ result.url }}">{{ result.url }}</a></td>
-            <span ng-if="result.ok">
-              <td>{{ result.stats.ease }}</td>
-              <td>{{ result.stats.fog }}</td>
-              <td>{{ result.stats.grade }}</td>
-            </span>
-            <span ng-if="!result.ok">
-              <td colspan="3">{{ result.error }}</td>
-            </span>
+            <td>{{ result.stats.ease }}</td>
+            <td>{{ result.stats.fog }}</td>
+            <td>{{ result.stats.grade }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel panel-danger" ng-show="processingErrors">
+      <div class="panel-heading">Errors</div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th width='20%'>URL</th>
+            <th>Error Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="result in results | filter: {ok: false}">
+            <td><a ng-href="{{ result.url }}">{{ result.url }}</a></td>
+            <td>{{ result.error }}</td>
           </tr>
         </tbody>
       </table>
