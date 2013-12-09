@@ -1,0 +1,22 @@
+{
+  "name": "readability",
+  "version": "0.0.0",
+  "authors": [
+    "robhurring <robhurring@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.0.3",
+    "angular": "~1.2.4",
+    "ng-csv": "~0.0.4",
+    "angular-ui-router": "0.2.5"
+  }
+}
