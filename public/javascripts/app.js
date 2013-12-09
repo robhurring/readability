@@ -43,6 +43,7 @@ app.factory('TextStatisticsSvc', function($q, $http){
           d.resolve(textstatistics(data.text));
         })
         .error(function(data, status, headers, config){
+          console.log('data', arguments)
           d.reject(data.error);
         });
 
@@ -53,8 +54,7 @@ app.factory('TextStatisticsSvc', function($q, $http){
 
 app.controller('HomeCtrl', function($scope, TextStatisticsSvc) {
   var testUrls = [
-    'http://www.youbeauty.com/face/rouge-ecstasy-lipstick-giorgio-armani',
-    'http://www.youbeauty.com/face/columns/makeup-matters/coping-with-cancer-diagnosis'
+    'www.proccli.com'
     ];
 
   $scope.processing = false;
