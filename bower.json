@@ -19,5 +19,8 @@
     "ng-csv": "~0.0.4",
     "angular-ui-router": "0.2.5",
     "ladda-bootstrap": "~0.1.0"
+  },
+  "resolutions": {
+    "angular-sanitize": "~1.2.4"
   }
 }
