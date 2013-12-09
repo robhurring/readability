@@ -34,14 +34,79 @@ app.directive('uiLadda', [function(){
 }]);
 
 
-app.factory('TextStatisticsSvc', function(){
+app.factory('TextStatisticsSvc', function($q, $http){
   return {
-    load: function(text){
-      return new TextStatistics(text);
+    loadUrl: function(url){
+      var d = $q.defer();
+
+      $http.get("/scrape?url=" + url)
+        .success(function(data, status, headers, config){
+          d.resolve(textstatistics(data.text));
+        })
+        .error(function(data, status, headers, config){
+          d.reject(data.error);
+        });
+
+      return d.promise;
     }
   }
 });
 
-app.controller('HomeCtrl', function($scope) {
-  $scope.message = 'Hello';
+app.controller('HomeCtrl', function($scope, TextStatisticsSvc) {
+  $scope.processing = false;
+
+  var urls = [],
+    testUrls = [
+      'http://proccli.com',
+      'http://reddit.com',
+      'http://edentech.net'
+    ];
+
+  $scope.results = [];
+  $scope.data = {
+    urlList: testUrls.join("\n")
+  }
+
+  $scope.processList = function(){
+    var processed = 0
+      , total = 0;
+
+    $scope.processing = 0.01;
+    $scope.results = [];
+
+    urls = $scope.data.urlList.split(/\r\n|\r|\n/g);
+    total = urls.length;
+
+    urls.forEach(function(url){
+      TextStatisticsSvc.loadUrl(url)
+        // create our result
+        .then(function(ts){
+          return {url: url, ok: true, score: ts.fleschKincaidGradeLevel()};
+        }, function(err){
+          return {url: url, ok: false, error: err};
+        })
+        // update our results
+        .then(function(result){
+          processed++;
+          $scope.results.push(result);
+        })
+        // update percentage
+        .then(function(){
+          if(processed >= total){
+            $scope.processing = false;
+          }else{
+            $scope.processing = Number(processed/total);
+          }
+        });
+    });
+
+    $scope.processing = false;
+  }
 });
+
+
+
+
+
+
+
