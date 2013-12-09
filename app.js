@@ -1,7 +1,8 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , toobusy = require('toobusy');
 
 var app = express();
 
@@ -9,6 +10,24 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+// rate limit
+app.use(function(req, res, next) {
+  if (toobusy()){
+    var status = 503
+      , error = "I'm busy right now, sorry.";
+
+    res.format({
+      json: function(){
+        res.json(503, {error: error})
+      },
+      default: function(){
+        res.send(503, error);
+      }
+    });
+  }else{
+    next();
+  }
+});
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
