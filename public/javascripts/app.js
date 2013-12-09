@@ -80,8 +80,8 @@ app.controller('HomeCtrl', function($scope, TextStatisticsSvc) {
     urls.forEach(function(url){
       TextStatisticsSvc.loadUrl(url)
         // create our result
-        .then(function(ts){
-          return {url: url, ok: true, score: ts.fleschKincaidGradeLevel()};
+        .then(function(stats){
+          return {url: url, ok: true, stats: stats};
         }, function(err){
           return {url: url, ok: false, error: err};
         })
@@ -103,10 +103,3 @@ app.controller('HomeCtrl', function($scope, TextStatisticsSvc) {
     $scope.processing = false;
   }
 });
-
-
-
-
-
-
-

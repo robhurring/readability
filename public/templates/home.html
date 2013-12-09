@@ -7,7 +7,7 @@
       </div>
 
       <button ng-click="processList()" ui-ladda="processing" class="ladda-button" data-style="expand-left">
-        <span class="ladda-label">Submit</span>
+        <span class="ladda-label">Process</span>
       </button>
     </form>
   </div>
@@ -27,7 +27,7 @@
         <tr ng-repeat="result in results">
           <td>{{ result.url }}</td>
           <td>{{ result.ok }}</td>
-          <td>{{ result.score }}</td>
+          <td>{{ result.stats.fleschKincaidReadingEase() }}</td>
         </tr>
       </tbody>
     </table>
