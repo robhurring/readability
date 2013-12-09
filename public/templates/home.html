@@ -18,16 +18,29 @@
     <table class="table">
       <thead>
         <tr>
-          <th>URL</th>
-          <th>Status</th>
-          <th>Score</th>
+          <th width='20%'>URL</th>
+          <th width='5%'>Ok?</th>
+          <th>Ease</th>
+          <th>Grade</th>
+          <th>Fog</th>
+          <th>Index</th>
+          <th>Smog</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="result in results">
-          <td>{{ result.url }}</td>
-          <td>{{ result.ok }}</td>
-          <td>{{ result.stats.fleschKincaidReadingEase() }}</td>
+          <td><a ng-href="{{ result.url }}">{{ result.url }}</a></td>
+          <span ng-if="result.ok">
+            <td>{{ result.ok ? 'Yes' : 'No' }}</td>
+            <td>{{ result.stats.fleschKincaidReadingEase() }}</td>
+            <td>{{ result.stats.fleschKincaidGradeLevel() }}</td>
+            <td>{{ result.stats.gunningFogScore() }}</td>
+            <td>{{ result.stats.colemanLiauIndex() }}</td>
+            <td>{{ result.stats.smogIndex() }}</td>
+          </span>
+          <span ng-if="!result.ok">
+            <td colspan="5">{{ result.error }}</td>
+          </span>
         </tr>
       </tbody>
     </table>
