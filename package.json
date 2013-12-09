@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon app.js",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "./node_modules/bower/bin/bower install -p -F"
   },
   "dependencies": {
     "express": "3.3.4",
