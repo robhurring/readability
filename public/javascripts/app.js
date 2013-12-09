@@ -54,7 +54,6 @@ app.factory('TextStatisticsSvc', function($q, $http){
 
 app.controller('HomeCtrl', function($scope, TextStatisticsSvc) {
   var testUrls = [
-    'www.proccli.com'
     ];
 
   $scope.processing = false;
