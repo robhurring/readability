@@ -1,6 +1,5 @@
 var app = angular.module('readability', [
-  'ui.router',
-  'ngCsv'
+  'ui.router'
 ]);
 
 app.config(function($stateProvider, $urlRouterProvider){
