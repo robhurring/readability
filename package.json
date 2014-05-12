@@ -12,6 +12,7 @@
     "bower": "~1.2.8",
     "request": "~2.29.0",
     "cheerio": "~0.12.4",
-    "toobusy": "~0.2.4"
+    "toobusy": "~0.2.4",
+    "text-statistics": "^0.1.1"
   }
 }
