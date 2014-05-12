@@ -4,6 +4,10 @@ Readability is a small app that calculates some information on given article URL
 
 This was built to help assist [Clay Cazier's](http://www.claycazier.com/) whitepaper on [Content Length, Readability & Organic Rankings](http://www.pmdigital.com/blog/2014/01/content-length-readability-organic-rankings/)
 
+## Demo
+
+A demo is up and running on heroku: http://textstatistics.herokuapp.com
+
 ## Running
 
 1. git clone `https://github.com/robhurring/readability.git`
