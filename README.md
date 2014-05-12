@@ -4,6 +4,8 @@ Readability is a small app that calculates some information on given article URL
 
 This was built to help assist [Clay Cazier's](http://www.claycazier.com/) whitepaper on [Content Length, Readability & Organic Rankings](http://www.pmdigital.com/blog/2014/01/content-length-readability-organic-rankings/)
 
+It is currently only scraping the `body` content and removing unwanted tags (such as script, link, img). A future upgrade may hook into the [Readability](https://www.readability.com/) API to more accurately gauge the content.
+
 ## Demo
 
 A demo is up and running on heroku: http://textstatistics.herokuapp.com
