@@ -1,26 +1,29 @@
+/* jshint strict: false */
+/* global angular, Ladda, textstatistics */
+
 var app = angular.module('readability', [
   'ui.bootstrap',
   'ui.router'
 ]);
 
-app.config(function($stateProvider, $urlRouterProvider){
+app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
   $stateProvider
     .state('home', {
       url: '/',
       templateUrl: 'templates/home.html',
       controller: 'HomeCtrl'
-    })
-})
+    });
+});
 
-app.directive('uiLadda', function(){
+app.directive('uiLadda', function() {
   return {
     link: function postLink(scope, element, attrs) {
       var ladda = Ladda.create(element[0]);
 
-      scope.$watch(attrs.uiLadda, function(newVal, oldVal){
-        if (angular.isNumber(oldVal)) {
-          if (angular.isNumber(newVal)) {
+      scope.$watch(attrs.uiLadda, function(newVal, oldVal) {
+        if(angular.isNumber(oldVal)) {
+          if(angular.isNumber(newVal)) {
             ladda.setProgress(newVal);
           } else {
             newVal && ladda.setProgress(0) || ladda.stop();
@@ -33,17 +36,17 @@ app.directive('uiLadda', function(){
   };
 });
 
-app.directive('popover', function(){
+app.directive('popover', function() {
   return {
     restrict: 'E',
     scope: {
       data: '='
     },
     templateUrl: 'templates/popover.html'
-  }
+  };
 });
 
-app.factory('HelpTextSvc', function(){
+app.factory('HelpTextSvc', function() {
   return {
     ease: {
       title: 'Flesch Reading Ease',
@@ -57,92 +60,90 @@ app.factory('HelpTextSvc', function(){
       title: 'Flesch-Kincaid grade level',
       text: 'The result is the Flesch-Kincaid grade level. Like the Gunning-Fog index, it is a rough measure of how many years of schooling it would take someone to understand the content. Negative results are reported as zero, and numbers over twelve are reported as twelve.'
     }
-  }
+  };
 });
 
-app.factory('TextStatisticsSvc', function($q, $http){
+app.factory('TextStatisticsSvc', function($q, $http) {
   return {
-    loadUrl: function(url, then){
-      $http.get("/fetch?url=" + url)
-        .success(function(data, status, headers, config){
+    loadUrl: function(url, then) {
+      $http.get('/fetch?url=' + url)
+        .success(function(data, status, headers, config) {
           then(null, data, textstatistics(data.text));
         })
-        .error(function(data, status, headers, config){
+        .error(function(data, status, headers, config) {
           then(data.error, data, null);
         });
     }
-  }
+  };
 });
 
 app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
-  var testUrls = [
-    ];
+  var testUrls = [];
 
   $scope.processing = false;
   $scope.processingErrors = false;
-  $scope.buttonLabel = "Process";
+  $scope.buttonLabel = 'Process';
   $scope.results = [];
   $scope.help = HelpTextSvc;
   $scope.data = {
     urlList: testUrls.join("\n")
-  }
+  };
 
-  var normalizeUrl = function(string){
+  var normalizeUrl = function(string) {
     var url = string;
 
-    if(!/^https?:\/\//i.test(url)){
-      url = "http://" + url;
+    if(!/^https?:\/\//i.test(url)) {
+      url = 'http://' + url;
     }
 
     return url;
-  }
+  };
 
-  $scope.processList = function(){
-    var urls = $scope.data.urlList.split(/\r\n|\r|\n/g)
-      , results;
+  $scope.processList = function() {
+    var urls = $scope.data.urlList.split(/\r\n|\r|\n/g);
 
     $scope.processing = true;
-    $scope.buttonLabel = "Processing";
+    $scope.buttonLabel = 'Processing';
     $scope.results = []; // reset results
     $scope.processingErrors = false;
 
-    urls.forEach(function(url){
+    urls.forEach(function(url) {
       url = normalizeUrl(url);
 
-      TextStatisticsSvc.loadUrl(url, function(err, data, textStats){
+      TextStatisticsSvc.loadUrl(url, function(err, data, textStats) {
         var result;
 
         result = {
           ok: true,
           url: data.url
-        }
+        };
 
-        if(err){
+        if(err) {
           $scope.processingErrors = true;
           result.ok = false;
           result.error = err;
-        }else{
+        } else {
           result.stats = {
             ease: textStats.fleschKincaidReadingEase(),
             grade: textStats.fleschKincaidGradeLevel(),
             fog: textStats.gunningFogScore(),
             liau: textStats.colemanLiauIndex(),
             smog: textStats.smogIndex()
-          }
+          };
         }
 
         // delete our stats if we have it to clean up
-        delete textStats
+        delete textStats;
 
         // push our result
         $scope.results.push(result);
 
-        if($scope.results.length >= urls.length){
+        if($scope.results.length >= urls.length) {
           $scope.processing = false;
           $scope.buttonLabel = "Process";
         }
       });
 
     });
-  }
+  };
 });

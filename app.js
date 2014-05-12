@@ -1,8 +1,10 @@
-var express = require('express')
-  , routes = require('./routes')
-  , http = require('http')
-  , path = require('path')
-  , toobusy = require('toobusy');
+'use strict';
+
+var express = require('express'),
+  routes = require('./routes'),
+  http = require('http'),
+  path = require('path'),
+  toobusy = require('toobusy');
 
 var app = express();
 
@@ -12,19 +14,21 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 // rate limit
 app.use(function(req, res, next) {
-  if (toobusy()){
-    var status = 503
-      , error = "I'm busy right now, sorry.";
+  if(toobusy()) {
+    var status = 503,
+      error = 'I\'m busy right now, sorry.';
 
     res.format({
-      json: function(){
-        res.json(503, {error: error})
+      json: function() {
+        res.json(status, {
+          error: error
+        });
       },
-      default: function(){
-        res.send(503, error);
+      default: function() {
+        res.send(status, error);
       }
     });
-  }else{
+  } else {
     next();
   }
 });
@@ -36,17 +40,17 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
-if ('development' == app.get('env')) {
+if('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 
 app.locals({
-  title: "Readability"
+  title: 'Readability'
 });
 
 app.get('/', routes.index);
 app.get('/fetch', routes.fetch);
 
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
