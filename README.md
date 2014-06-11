@@ -15,10 +15,3 @@ A demo is up and running on heroku: http://textstatistics.herokuapp.com
 1. git clone `https://github.com/robhurring/readability.git`
 2. `npm install`
 3. `npm start`
-
-## Credits
-
-This app uses libraries from the following places:
-
-1. [cgiffard/TextStatistics](https://github.com/cgiffard/TextStatistics.js)
-2. http://juicystudio.com/services/readability.php
