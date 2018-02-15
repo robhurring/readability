@@ -54,13 +54,10 @@
         </div>
       </div>
       <div class="panel-body" ng-show="{{ result.data.meta.description.length }}">
-        <strong>
-          Description
-          <span class="label label-default">
-            {{ result.data.meta.description.length }}
-          </span>
-        </strong><br>
-        <p>{{ result.data.meta.description }}</p>
+        <p class="lead">{{ result.data.meta.description }}</p>
+        <small class="text-muted">
+          {{ result.data.meta.description.length }} words
+        </small>
       </div>
       <table class="table">
         <thead>
@@ -82,7 +79,10 @@
         <li class="list-group-item">
           <strong>Top Keywords</strong>
           <ol>
-            <li ng-repeat="keyword in result.data.metrics.keywordDensity">{{ keyword.word }}</li>
+            <li ng-repeat="keyword in result.data.metrics.keywordDensity">
+              {{ keyword.word }}
+              <small class="text-muted">({{ keyword.count }} times)</small>
+            </li>
           </ol>
         </li>
         <li class="list-group-item" ng-show="{{ result.data.metrics.suggestions }}">

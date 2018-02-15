@@ -46,18 +46,6 @@ app.directive('popover', function() {
   };
 });
 
-app.filter('keywordList', function() {
-  return function(list) {
-    var keywords = [];
-
-    list.forEach(function(item) {
-      keywords.push(item.word);
-    });
-
-    return keywords.join(', ');
-  }
-});
-
 app.factory('HelpTextSvc', function() {
   return {
     ease: {
