@@ -46,6 +46,18 @@ app.directive('popover', function() {
   };
 });
 
+app.filter('keywordList', function() {
+  return function(list) {
+    var keywords = [];
+
+    list.forEach(function(item) {
+      keywords.push(item.word);
+    });
+
+    return keywords.join(', ');
+  }
+});
+
 app.factory('HelpTextSvc', function() {
   return {
     ease: {
@@ -68,17 +80,24 @@ app.factory('TextStatisticsSvc', function($q, $http) {
     loadUrl: function(url, then) {
       $http.get('/fetch?url=' + url)
         .success(function(data, status, headers, config) {
-          then(null, data, textstatistics(data.text));
+          then(null, data);
         })
         .error(function(data, status, headers, config) {
-          then(data.error, data, null);
+          then(data.error, data);
         });
     }
   };
 });
 
 app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
-  var testUrls = [];
+  var testUrls = [
+    "https://www.yahoo.com/news/amazon-adds-single-sign-fire-203627984.html",
+    "http://kutv.com/news/local/southern-utah-gop-official-arrested-in-prostitution-sting",
+    "https://www.theguardian.com/world/2018/feb/15/china-first-human-case-h7n4-bird-flu",
+    "https://www.reuters.com/article/us-russia-election-navalny/russian-opposition-leader-navalnys-website-blocked-before-election-idUSKCN1FZ16Z?il=0",
+    "https://www.thedailybeast.com/someone-is-sending-amazon-sex-toys-to-strangers-amazon-has-no-idea-how-to-stop-it",
+    "https://www.cnn.com/2018/02/15/us/nikolas-cruz-fbi-warned/index.html"
+  ];
 
   $scope.processing = false;
   $scope.processingErrors = false;
@@ -110,12 +129,13 @@ app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
     urls.forEach(function(url) {
       url = normalizeUrl(url);
 
-      TextStatisticsSvc.loadUrl(url, function(err, data, textStats) {
+      TextStatisticsSvc.loadUrl(url, function(err, data) {
         var result;
 
         result = {
           ok: true,
-          url: data.url
+          url: data.url,
+          data: null
         };
 
         if(err) {
@@ -123,17 +143,8 @@ app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
           result.ok = false;
           result.error = err;
         } else {
-          result.stats = {
-            ease: textStats.fleschKincaidReadingEase(),
-            grade: textStats.fleschKincaidGradeLevel(),
-            fog: textStats.gunningFogScore(),
-            liau: textStats.colemanLiauIndex(),
-            smog: textStats.smogIndex()
-          };
+          result.data = data;
         }
-
-        // delete our stats if we have it to clean up
-        delete textStats;
 
         // push our result
         $scope.results.push(result);

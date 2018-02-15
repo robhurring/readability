@@ -5,3 +5,7 @@ body {
 .form-alert{
   margin-bottom: 0;
 }
+
+dl {
+  margin-bottom: 1em;
+}

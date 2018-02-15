@@ -39,24 +39,49 @@
       <div class="panel-body" ng-hide="results.length">
         <p>Process some urls</p>
       </div>
-      <table class="table" ng-show="results.length">
-        <thead>
-          <tr>
-            <th width='20%'>URL</th>
-            <th>Flesch Reading Ease <popover data="help.ease"></th>
-            <th>Gunning-Fog Index <popover data="help.fog"></th>
-            <th>Flesch-Kincaid grade level <popover data="help.grade"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="result in results | filter: {ok: true}">
-            <td><a ng-href="{{ result.url }}">{{ result.url }}</a></td>
-            <td>{{ result.stats.ease }}</td>
-            <td>{{ result.stats.fog }}</td>
-            <td>{{ result.stats.grade }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table" ng-show="results.length">
+          <thead>
+            <tr>
+              <th width="35%">URL</th>
+              <th>Statistics</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="result in results | filter: {ok: true}">
+              <td><a ng-href="{{ result.url }}">{{ result.url }}</a></td>
+              <td>
+                <dl>
+                  <dt>Flesch Reading Ease <popover data="help.ease"></dt>
+                  <dd>{{ result.data.stats.readingEase }}</dd>
+                  <dt>Gunning-Fog Index <popover data="help.fog"></dt>
+                  <dd>{{ result.data.stats.gunningFog }}</dd>
+                  <dt>Flesch-Kincaid grade level <popover data="help.grade"></dt>
+                  <dd>{{ result.data.stats.gradeLevel }}</dd>
+                  <dt>Title ({{result.data.meta.title.length}})</dt>
+                  <dd>{{ result.data.meta.title }}
+                  <dt>Description ({{ result.data.meta.description.length }})</dt>
+                  <dd>{{ result.data.meta.description }}
+                  <dt>Top Keywords</dt>
+                  <dd>
+                    <ol>
+                      <li ng-repeat="keyword in result.data.metrics.keywordDensity">{{ keyword.word }}</li>
+                    </ol>
+                  </dd>
+                  <dt>Suggestions</dt>
+                  <dd>
+                    <ol>
+                      <li ng-repeat="suggestion in result.data.metrics.suggestions">
+                        {{ suggestion.reason }}
+                      </li>
+                    </ol>
+                  </dd>
+                </dl>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="panel panel-danger" ng-show="processingErrors">
