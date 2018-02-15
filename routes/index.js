@@ -65,7 +65,6 @@ exports.fetch = function(req, res) {
 
       payload.metrics = {
         keywordDensity: kwDensity.slice(0, 10),
-        titleLength: title.length,
         suggestions: suggestions
       }
 

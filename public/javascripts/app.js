@@ -46,6 +46,13 @@ app.directive('popover', function() {
   };
 });
 
+app.filter('words', function() {
+  return function(string) {
+    var matches = string.match(/[\w\d]+/gi);
+    return matches ? matches.length : 0;
+  }
+});
+
 app.factory('HelpTextSvc', function() {
   return {
     ease: {

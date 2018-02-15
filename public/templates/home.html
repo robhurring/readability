@@ -38,7 +38,12 @@
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-9">
-            <h3 class="panel-title">{{ result.data.meta.title }}</h3>
+            <h3 class="panel-title">
+              {{ result.data.meta.title }}
+              <small class="text-muted">
+                ({{ result.data.meta.title | words }} words, {{ result.data.meta.title.length }} chars)
+              </small>
+            </h3>
             <h6>
               <a target="_blank" ng-href="{{ result.url }}">{{ result.url }}</a>
               ({{ result.data.responseTime }}ms)
@@ -56,7 +61,7 @@
       <div class="panel-body" ng-show="{{ result.data.meta.description.length }}">
         <p class="lead">{{ result.data.meta.description }}</p>
         <small class="text-muted">
-          {{ result.data.meta.description.length }} words
+          {{ result.data.meta.description | words }} words, {{ result.data.meta.description.length }} chars 
         </small>
       </div>
       <table class="table">
