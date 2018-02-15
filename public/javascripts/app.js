@@ -6,6 +6,16 @@ var app = angular.module('readability', [
   'ui.router'
 ]);
 
+Array.prototype.unique = function() {
+  var unique = [];
+  for (var i = 0; i < this.length; i++) {
+    if (unique.indexOf(this[i]) == -1) {
+      unique.push(this[i]);
+    }
+  }
+  return unique;
+};
+
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
   $stateProvider
@@ -47,9 +57,18 @@ app.directive('popover', function() {
 });
 
 app.filter('words', function() {
-  return function(string) {
+  return function(string, unique) {
     var matches = string.match(/[\w\d]+/gi);
-    return matches ? matches.length : 0;
+
+    if (matches) {
+      if (unique) {
+        return matches.unique().length;
+      } else {
+        return matches.length;
+      }
+    } else {
+      return 0;
+    }
   }
 });
 

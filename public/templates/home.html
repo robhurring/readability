@@ -67,6 +67,8 @@
       <table class="table">
         <thead>
           <tr>
+            <th>Word Count</th>
+            <th>Unique Words</th>
             <th>Flesch Reading Ease <popover data="help.ease"></th>
             <th>Gunning-Fog Index <popover data="help.fog"></th>
             <th>Flesch-Kincaid grade level <popover data="help.grade"></th>
@@ -74,6 +76,8 @@
         </thead>
         <tbody>
           <tr>
+            <td>{{ result.data.meta.text | words }} words</td>
+            <td>{{ result.data.meta.text | words: true }} words</td>
             <td>{{ result.data.stats.readingEase }}</td>
             <td>{{ result.data.stats.gunningFog }}</td>
             <td>{{ result.data.stats.gradeLevel }}</td>
