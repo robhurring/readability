@@ -77,21 +77,25 @@
       </table>
       <ul class="list-group">
         <li class="list-group-item">
-          <strong>Top Keywords</strong>
-          <ol>
-            <li ng-repeat="keyword in result.data.metrics.keywordDensity">
-              {{ keyword.word }}
-              <small class="text-muted">({{ keyword.count }} times)</small>
-            </li>
-          </ol>
-        </li>
-        <li class="list-group-item" ng-show="{{ result.data.metrics.suggestions }}">
-          <strong>Suggestions</strong>
-          <ol>
-            <li ng-repeat="suggestion in result.data.metrics.suggestions">
-              {{ suggestion.reason }}
-            </li>
-          </ol>
+          <div class="row">
+            <div class="col-sm-6">
+              <h3>Top Keywords</h3>
+              <ol>
+                <li ng-repeat="keyword in result.data.metrics.keywordDensity">
+                  {{ keyword.word }}
+                  <small class="text-muted">({{ keyword.count }} times)</small>
+                </li>
+              </ol>
+            </div>
+            <div class="col-sm-6">
+              <h3>Suggestions</h3>
+              <ol>
+                <li ng-repeat="suggestion in result.data.metrics.suggestions">
+                  {{ suggestion.reason }}
+                </li>
+              </ol>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
