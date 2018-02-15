@@ -12,16 +12,23 @@ exports.index = function(req, res) {
 
 exports.fetch = function(req, res) {
   var url = req.query.url;
+  var startTime = new Date().getTime();
+  var requestOptions = {
+    url: url,
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+    }
+  }
 
   if(!/^https?:\/\//i.test(url)) {
     url = 'http://' + url;
   }
 
-  request(url, function(err, data) {
+  request(requestOptions, function(err, data) {
+    var requestTime = new Date().getTime() - startTime;
     var payload = {
       url: url,
-      title: null,
-      text: null,
+      responseTime: requestTime,
       error: null
     };
 
