@@ -37,7 +37,7 @@ exports.fetch = function(req, res) {
       var densityOptions = {};
 
       // remove cruft
-      doc('script,link,img,style').remove();
+      doc('script,link,img,style,footer').remove();
 
       var text = String(doc('body').text()).replace(/\s{2,}|\n\r/ig, ' ').trim();
       var title = doc('title').text().trim();
