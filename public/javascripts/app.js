@@ -91,12 +91,6 @@ app.factory('TextStatisticsSvc', function($q, $http) {
 
 app.controller('HomeCtrl', function($scope, TextStatisticsSvc, HelpTextSvc) {
   var testUrls = [
-    "https://www.yahoo.com/news/amazon-adds-single-sign-fire-203627984.html",
-    "http://kutv.com/news/local/southern-utah-gop-official-arrested-in-prostitution-sting",
-    "https://www.theguardian.com/world/2018/feb/15/china-first-human-case-h7n4-bird-flu",
-    "https://www.reuters.com/article/us-russia-election-navalny/russian-opposition-leader-navalnys-website-blocked-before-election-idUSKCN1FZ16Z?il=0",
-    "https://www.thedailybeast.com/someone-is-sending-amazon-sex-toys-to-strangers-amazon-has-no-idea-how-to-stop-it",
-    "https://www.cnn.com/2018/02/15/us/nikolas-cruz-fbi-warned/index.html"
   ];
 
   $scope.processing = false;
