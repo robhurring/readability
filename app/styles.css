@@ -1,0 +1,16 @@
+body {
+  margin-top: 60px;
+}
+
+.form-alert{
+  margin-bottom: 0;
+}
+
+.api-link {
+  color: white;
+}
+
+.api-link:hover {
+  color: white;
+}
+

@@ -1,31 +1,40 @@
 {
-  "name": "application-name",
+  "name": "readability",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js",
-    "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'public/vendor', 'junction') } catch (e) { }\""
+    "start": "nodemon server.js",
+    "dev": "webpack --mode development --watch"
   },
   "dependencies": {
-    "@bower_components/angular": "angular/bower-angular#~1.2.4",
-    "@bower_components/angular-bootstrap": "angular-ui/bootstrap-bower#~0.7.0",
-    "@bower_components/angular-ui-router": "angular-ui/angular-ui-router-bower#0.2.5",
-    "@bower_components/bootstrap": "twbs/bootstrap#~3.0.3",
-    "@bower_components/jquery": "jquery/jquery-dist#>= 1.9.0",
-    "@bower_components/ladda-bootstrap": "msurguy/ladda-bootstrap#~0.1.0",
-    "@bower_components/spin.js": "fgnass/spin.js#~1.3.2",
-    "bower": "*",
+    "@babel/core": "^7.0.0-beta.40",
+    "bootstrap": "^3.3.7",
     "cheerio": "~0.12.4",
+    "cross-fetch": "^1.1.1",
+    "deku": "^2.0.0-rc16",
+    "deku-forms": "^1.7.0",
     "density": "^0.1.0",
     "ejs": "*",
     "express": "3.3.4",
+    "jquery": "^3.3.1",
+    "ladda": "^1.0.6",
+    "ladda-bootstrap": "msurguy/ladda-bootstrap",
+    "redux": "^3.7.2",
     "request": "~2.29.0",
+    "spin.js": "^3.1.0",
     "text-statistics": "^0.1.1",
-    "webpack": "^3.10.0",
     "write-good": "^0.11.3"
   },
   "devDependencies": {
-    "nodemon": "^1.14.11"
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "babel-loader": "^8.0.0-beta.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "css-loader": "^0.28.10",
+    "nodemon": "^1.14.11",
+    "nodemon-webpack-plugin": "^0.1.6",
+    "style-loader": "^0.20.2",
+    "webpack": "^4.0.0",
+    "webpack-cli": "^2.0.9"
   },
   "engines": {
     "yarn": ">= 1.0.0"
