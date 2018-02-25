@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "start": "nodemon server.js",
+    "build": "NODE_ENV=production webpack --mode production",
     "dev": "webpack --mode development --watch"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.40",
     "bootstrap": "^3.3.7",
     "cheerio": "~0.12.4",
     "cross-fetch": "^1.1.1",
@@ -16,7 +16,6 @@
     "density": "^0.1.0",
     "ejs": "*",
     "express": "3.3.4",
-    "jquery": "^3.3.1",
     "ladda": "^1.0.6",
     "ladda-bootstrap": "msurguy/ladda-bootstrap",
     "redux": "^3.7.2",
@@ -26,10 +25,13 @@
     "write-good": "^0.11.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.40",
     "@babel/preset-env": "^7.0.0-beta.40",
     "babel-loader": "^8.0.0-beta.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "css-loader": "^0.28.10",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.9",
     "nodemon": "^1.14.11",
     "nodemon-webpack-plugin": "^0.1.6",
     "style-loader": "^0.20.2",

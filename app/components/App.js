@@ -1,26 +1,24 @@
-import {element} from 'deku';
-import _ from 'bootstrap';
-import {Form, InputField, TextField} from 'deku-forms';
+import { element } from "deku";
+import { Form, InputField, TextField } from "deku-forms";
+import Header from "./Header";
+import Footer from "./Footer";
 
-import {fetchUrl} from '../actions';
-
-let textarea;
-
-function render({ props, children, dispatch }) {
+function render({ props, children, dispatch, context }) {
+  console.log(arguments);
   return (
-    <Form onSubmit={handle}>
-      <InputField name="username"
-        label="Username"
-        required />
-      <button type="submit">Submit</button>
-    </Form>
+    <section>
+      <Header title="Readability" />
+      <p>{context.clicks}</p>
+      <button onClick={()=>{dispatch({type:'BOOM'})}}>boom</button>
+      <Footer />
+    </section>
   );
 }
 
-function onCreate ({ props, dispatch }) {
+function onCreate({ props, dispatch }) {
   dispatch({
-    type: 'APP_STARTED'
-  })
+    type: "APP_STARTED"
+  });
 }
 
 function handle(data, form) {
@@ -29,8 +27,7 @@ function handle(data, form) {
   console.log(data);
 }
 
-
 export default {
   render,
   onCreate
-}
+};

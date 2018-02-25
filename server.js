@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express'),
-  routes = require('./routes'),
+  controllers = require('./controllers'),
   http = require('http'),
   path = require('path');
 
@@ -29,7 +29,7 @@ app.locals({
 });
 
 // app.get('/', routes.index);
-app.get('/fetch', routes.fetch);
+app.get('/fetch', controllers.statistics.fetch);
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));

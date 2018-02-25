@@ -2,6 +2,10 @@ body {
   margin-top: 60px;
 }
 
+.hidden {
+  display: none;
+}
+
 .form-alert{
   margin-bottom: 0;
 }
